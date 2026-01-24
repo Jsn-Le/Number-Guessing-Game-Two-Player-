@@ -7,7 +7,7 @@ public class main {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        int secretNumber = 67;//random.nextInt(100) + 1; // 1-100
+        int secretNumber = random.nextInt(100) + 1;
 
         // Player One picks a number
         System.out.print("Player One- Pick a number between 1-100: ");
