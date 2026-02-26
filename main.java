@@ -132,89 +132,91 @@ public class main {
         String choiceRange; // human-readable range for prompts
 
         // Mode 1: Fixed ranges. Present several presets and read player guesses within that preset.
-        try {
-            do {
-                System.out.print("""
-                                    Ranges
-                                    1. 1-25
-                                    2. 1-50
-                                    3. 1-100
-                                    4. 1-1000
-                                    Please select a range (1/2/3/4): 
-                                    """);
-
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Invalid input. Please enter 1, 2, 3, or 4.");
-                    scanner.next();
-                }
-
-                choice = scanner.nextInt();
-
-                if (choice < 1 || choice > 4) {
-                    System.out.println("Please select a valid range (1-4).");
-                }
-                
-            } while (choice < 1 || choice > 4);
-
-            // choose preset range and generate secret number
-                switch (choice) {
-                    case 1 -> {
-                        secretNumber = random.nextInt(25) + 1;
-                        choiceRange = "1 to 25";
-                        choiceMin = 1;
-                        choiceMax = 25;
-                    }
-                    case 2 -> {
-                        secretNumber = random.nextInt(50) + 1;
-                        choiceRange = "1 to 50";
-                        choiceMin = 1;
-                        choiceMax = 50;
-                    }
-                    case 3 -> {
-                        secretNumber = random.nextInt(100) + 1;
-                        choiceRange = "1 to 100";
-                        choiceMin = 1;
-                        choiceMax = 100;
-                    }
-                    default -> {
-                        secretNumber = random.nextInt(1000) + 1;
-                        choiceRange = "1 to 1000";
-                        choiceMin = 1;
-                        choiceMax = 1000;
-                    }
-                }
-
-            // Player One picks a number (validated to be inside chosen range)
-            System.out.print("Player One- Pick a number between " + choiceRange + ": ");
+        while (true) {
+            try {
                 do {
-                    guess1 = scanner.nextInt();
-                    if (guess1 < choiceMin || guess1 > choiceMax) {
-                        System.out.println("Please select a number within the range");
-                        System.out.print("Try again: ");
-                    }
-                } while (guess1 < choiceMin || guess1 > choiceMax);
-            System.out.println("Player One has picked the number: " + guess1);
+                    System.out.print("""
+                                        Ranges
+                                        1. 1-25
+                                        2. 1-50
+                                        3. 1-100
+                                        4. 1-1000
+                                        Please select a range (1/2/3/4): 
+                                        """);
 
-            // Player Two picks a number (validated to be inside chosen range)
-            System.out.print("Player Two- Pick a number between " + choiceRange + ": ");
-                do { 
-                    guess2 = scanner.nextInt();
-                    if (guess2 < choiceMin || guess2 > choiceMax) {
-                        System.out.println("Please select a number within the range");
-                        System.out.print("Try again: ");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Invalid input. Please enter 1, 2, 3, or 4.");
+                        scanner.next();
                     }
-                } while (guess2 < choiceMin || guess2 > choiceMax);
-            System.out.println("Player Two has picked the number: " + guess2);
 
-            // Clears trails from nextInt
-            scanner.nextLine();
+                    choice = scanner.nextInt();
+
+                    if (choice < 1 || choice > 4) {
+                        System.out.println("Please select a valid range (1-4).");
+                    }
                     
-        } catch (Exception e) {
-            System.out.println("Invalid input - Restarting input for this round.");
-            scanner.nextLine(); // discard bad token/line before retrying
-        }
+                } while (choice < 1 || choice > 4);
 
-        return new int[]{secretNumber, guess1, guess2};
+                // choose preset range and generate secret number
+                    switch (choice) {
+                        case 1 -> {
+                            secretNumber = random.nextInt(25) + 1;
+                            choiceRange = "1 to 25";
+                            choiceMin = 1;
+                            choiceMax = 25;
+                        }
+                        case 2 -> {
+                            secretNumber = random.nextInt(50) + 1;
+                            choiceRange = "1 to 50";
+                            choiceMin = 1;
+                            choiceMax = 50;
+                        }
+                        case 3 -> {
+                            secretNumber = random.nextInt(100) + 1;
+                            choiceRange = "1 to 100";
+                            choiceMin = 1;
+                            choiceMax = 100;
+                        }
+                        default -> {
+                            secretNumber = random.nextInt(1000) + 1;
+                            choiceRange = "1 to 1000";
+                            choiceMin = 1;
+                            choiceMax = 1000;
+                        }
+                    }
+
+                // Player One picks a number (validated to be inside chosen range)
+                System.out.print("Player One- Pick a number between " + choiceRange + ": ");
+                    do {
+                        guess1 = scanner.nextInt();
+                        if (guess1 < choiceMin || guess1 > choiceMax) {
+                            System.out.println("Please select a number within the range");
+                            System.out.print("Try again: ");
+                        }
+                    } while (guess1 < choiceMin || guess1 > choiceMax);
+                System.out.println("Player One has picked the number: " + guess1);
+
+                // Player Two picks a number (validated to be inside chosen range)
+                System.out.print("Player Two- Pick a number between " + choiceRange + ": ");
+                    do { 
+                        guess2 = scanner.nextInt();
+                        if (guess2 < choiceMin || guess2 > choiceMax) {
+                            System.out.println("Please select a number within the range");
+                            System.out.print("Try again: ");
+                        }
+                    } while (guess2 < choiceMin || guess2 > choiceMax);
+                System.out.println("Player Two has picked the number: " + guess2);
+
+                // Clears trails from nextInt
+                scanner.nextLine();
+
+                return new int[]{secretNumber, guess1, guess2};
+                        
+            } catch (Exception e) {
+                System.out.println("Invalid input - Restarting input for this round.");
+                scanner.nextLine(); // discard bad token/line before retrying
+            }
+        }
 
     }
 
@@ -228,59 +230,61 @@ public class main {
         int num2 = 0; // default upper bound
 
         // Mode 2: Endless. Ask the user for lower/upper bounds, validate them, then read guesses.
-        try {
-            // Players choose a range to guess from
-            System.out.println("Enter the lower bound (>=0): ");
-            do { 
-                num1 = scanner.nextInt();
-                if (num1 < 0) {
-                    System.out.println("Please enter a number equal or greater to 0");
-                } 
-            } while (num1 < 0);
+        while (true) {
+            try {
+                // Players choose a range to guess from
+                System.out.println("Enter the lower bound (>=0): ");
+                do { 
+                    num1 = scanner.nextInt();
+                    if (num1 < 0) {
+                        System.out.println("Please enter a number equal or greater to 0");
+                    } 
+                } while (num1 < 0);
 
-            System.out.println("Enter the upper bound (must be > lower bound): ");
-            do { 
-                num2 = scanner.nextInt();
-                if (num2 <= num1) {
-                    System.out.println("Please enter a number greater than the lower bound");
-                } 
-            } while (num2 <= num1);
+                System.out.println("Enter the upper bound (must be > lower bound): ");
+                do { 
+                    num2 = scanner.nextInt();
+                    if (num2 <= num1) {
+                        System.out.println("Please enter a number greater than the lower bound");
+                    } 
+                } while (num2 <= num1);
 
-            // compute secret number inside the chosen bounds
-            int size = num2 - num1 + 1;
-            secretNumber = random.nextInt(size) + num1;
+                // compute secret number inside the chosen bounds
+                int size = num2 - num1 + 1;
+                secretNumber = random.nextInt(size) + num1;
 
-            // Player One picks a number (validated to be inside the user-provided bounds)
-            System.out.print("Player One- Pick a number between " + num1 + " and " + num2 + ": ");
-            do {
-                guess1 = scanner.nextInt();
-                if (guess1 < num1 || guess1 > num2) {
-                    System.out.println("Please select a number within the range");
-                    System.out.print("Try again: ");
-                }
-            } while (guess1 < num1 || guess1 > num2);
-            System.out.println("Player One has picked the number: " + guess1);
+                // Player One picks a number (validated to be inside the user-provided bounds)
+                System.out.print("Player One- Pick a number between " + num1 + " and " + num2 + ": ");
+                do {
+                    guess1 = scanner.nextInt();
+                    if (guess1 < num1 || guess1 > num2) {
+                        System.out.println("Please select a number within the range");
+                        System.out.print("Try again: ");
+                    }
+                } while (guess1 < num1 || guess1 > num2);
+                System.out.println("Player One has picked the number: " + guess1);
 
-            // Player Two picks a number (validated to be inside the user-provided bounds)
-            System.out.print("Player Two- Pick a number between " + num1 + " and " + num2 + ": ");
-            do {
-                guess2 = scanner.nextInt();
-                if (guess2 < num1 || guess2 > num2) {
-                    System.out.println("Please select a number within the range");
-                    System.out.print("Try again: ");
-                }
-            } while (guess2 < num1 || guess2 > num2);
-            System.out.println("Player Two has picked the number: " + guess2);
+                // Player Two picks a number (validated to be inside the user-provided bounds)
+                System.out.print("Player Two- Pick a number between " + num1 + " and " + num2 + ": ");
+                do {
+                    guess2 = scanner.nextInt();
+                    if (guess2 < num1 || guess2 > num2) {
+                        System.out.println("Please select a number within the range");
+                        System.out.print("Try again: ");
+                    }
+                } while (guess2 < num1 || guess2 > num2);
+                System.out.println("Player Two has picked the number: " + guess2);
 
-            // Clears trails from nextInt
-            scanner.nextLine();
-                    
-        } catch (Exception e) {
-            System.out.println("Invalid input - Restarting input for this round.");
-            scanner.nextLine(); // discard bad token/line before retrying
+                // Clears trails from nextInt
+                scanner.nextLine();
+
+                return new int[]{secretNumber, guess1, guess2};
+                        
+            } catch (Exception e) {
+                System.out.println("Invalid input - Restarting input for this round.");
+                scanner.nextLine(); // discard bad token/line before retrying
+            }
         }
-
-        return new int[]{secretNumber, guess1, guess2};
 
     }
 
